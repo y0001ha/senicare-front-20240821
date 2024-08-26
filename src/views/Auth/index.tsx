@@ -57,7 +57,7 @@ export default function Auth() {
     const onPasswordCheckChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setPasswordCheck(value);
-        
+
         if (!password) return;
 
         const isEqual = password === value;
@@ -69,11 +69,27 @@ export default function Auth() {
     const onTelNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setTelNumber(value);
+
+        const pattern = /^(?=.*[0-9]).{10,13}$/
+        const isEqual = pattern.test(value);
+
+        const message = isEqual ? '' : '전화번호를 다시 입력해주세요';
+        
+        setTelNumberMessage(message);
+        setAuthNumberMessageError(!isEqual);
     };
 
     const onAuthNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setAuthNumber(value);
+
+        const pattern = /^(?=.*[0-9]).{4}$/
+        const isEqual = pattern.test(value);
+
+        const message = isEqual ? '' : '인증번호를 다시 입력해주세요.';
+
+        setAuthNumberMessage(message);
+        setAuthNumberMessageError(!isEqual);
     };
 
     const onIdCheckClickHandler = () => {
@@ -89,12 +105,20 @@ export default function Auth() {
 
     const onTelNumberSendClickHandler = () => {
         if (!telNumber) return;
-        alert('인증번호 전송!');
+
+        const isDuplicated = telNumber === '01063690575';
+        const message = isDuplicated ? '이미 사용중인 전화번호입니다.' : '사용가능한 전화번호입니다.';
+        setTelNumberMessage(message);
+        setTelNumberMessageError(isDuplicated);
     };
 
     const onAuthNumberCheckClickHandler = () => {
         if (!authNumber) return;
-        alert('인증번호 확인!');
+
+        const isDuplicated = authNumber === '1234';
+        const message = isDuplicated ? '인증번호를 다시 입력해주세요.' : '인증되었습니다.';
+        setAuthNumberMessage(message);
+        setAuthNumberMessageError(isDuplicated);
     };
 
     return (
