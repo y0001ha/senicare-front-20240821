@@ -45,14 +45,25 @@ export default function Auth() {
         const message = isMatched ? '' : '영문, 숫자를 혼용하여 8 ~ 13자 입력해주세요.';
         setPasswordMessage(message);
         setPasswordMessageError(!isMatched);
+
+        if (!passwordCheck) return;
+
+        const isEqual = passwordCheck === value;
+        const checkMessage = isEqual ? '' : '비밀번호가 일치하지 않습니다.';
+        setPasswordCheckMassage(checkMessage);
+        setAuthNumberMessageError(!isEqual);
     };
 
     const onPasswordCheckChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setPasswordCheck(value);
+        
+        if (!password) return;
 
-        const isDuplicated = password === passwordCheck
-        const message = isDuplicated ? '' : '비밀번호가 일치하지 않습니다.'
+        const isEqual = password === value;
+        const message = isEqual ? '' : '비밀번호가 일치하지 않습니다.';
+        setPasswordCheckMassage(message);
+        setPasswordCheckMassageError(!isEqual);
     };
 
     const onTelNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
