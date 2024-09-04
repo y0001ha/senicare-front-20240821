@@ -23,13 +23,13 @@ npm run start
 npm run bild
 ```
 
-#### 네비게이션 구조
+#### 경로 구조
 **/auth** : 로그인 및 회원가입 
 
 **/cs** : 고객 관리  (고객 리스트 보기)  
 **/cs/write** : 고객 등록  
 **/cs/:customNumber** : 고객 상세 보기  
-**/cs/customNumber/update** : 고객 수정  
+**/cs/:customNumber/update** : 고객 수정  
 
 **/mm** : 용품 관리  (용품 리스트 보기)
 
@@ -40,7 +40,7 @@ npm run bild
 ***
 
 ### 폴더 구조
-```
+
 ┌─ apis: 외부 API 연결 함수    
 
 ├─ assets: 컴포넌트에서 사용될 정적 자원  
@@ -60,4 +60,4 @@ npm run bild
 ├─ utils: 공통 함수  
 
 └─ views: 페이지 별 화면 컴포넌트
-```
+
