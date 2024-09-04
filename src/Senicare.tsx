@@ -3,17 +3,21 @@ import './Senicare.css';
 import Auth from 'src/views/Auth';
 import { Route, Routes, useNavigate } from 'react-router';
 import MainLayout from './layouts/MainLayout/Index';
+import { useCookies } from 'react-cookie';
 
 // component: root path 컴포넌트 //
 function Index() {
+
+  // state: 쿠키 상태 //
+  const [cookies] = useCookies();
 
   // function: 네비게이터 함수 //
   const navigator = useNavigate();
 
   // effect: 마운트 시 경로 이동 effect //
   useEffect(() => {
-    // TODO: /auth로 경로 이동
-    navigator('/auth');
+    if (cookies.accesToken) navigator('/cs');
+    else navigator('/auth');
   }, []);
 
   // render: root path 컴포넌트 렌더링 //
@@ -43,6 +47,7 @@ export default function Senicare() {
         <Route path=':userId' element={<></>} />
         <Route path=':userId/update' element={<></>} />
       </Route>
+      <Route path='*' element={<Index />} /> 
     </Routes>
   );
 }
