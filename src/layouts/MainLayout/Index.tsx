@@ -1,6 +1,8 @@
-import React from 'react'
-import { Outlet } from 'react-router'
+import React, { useEffect } from 'react'
+import { Outlet, useLocation, useNavigate } from 'react-router'
 import './style.css';
+import path from 'path';
+import { useCookies } from 'react-cookie';
 
 // component: 로고 컴포넌트 //
 function Logo() {
@@ -19,12 +21,34 @@ function Logo() {
 
 // component: 상단 컴포넌트 //
 function Top() {
+
+    // state: path 상태 // - 현재 위치를 알려주는 훅함수
+    const { pathname } = useLocation();
+
+    // state: cookie 상태 //
+    const [cookies, setCookie, removeCookie] = useCookies();
     
+    // variable: 경로 이름 //
+    const path = 
+        pathname.startsWith('/cs') ? '고객 관리' : 
+        pathname.startsWith('/mm') ? '용품 관리' :
+        pathname.startsWith('/hr') ? '인사 관리' : '';
+        // startsWith 시작하는 문자로 검색
+
+    // function: 네비게이터 함수 // - 경로 이동
+    const navigatior = useNavigate();
+
+    // event handler: 로그아웃 버튼 클릭 이벤트 처리 //    
+    const onLogoutButtonClickHandler = () => {
+        removeCookie('accessToken', { path: '/' });
+        navigatior('/auth');
+    };
+
     // render: 상단 컴포넌트 렌더링 //
     return (
         <div id='layout-top'>
-            <div className='path'>고객 관리</div>
-            <div className='button second'>로그아웃</div>
+            <div className='path'>{path}</div>
+            <div className='button second' onClick={onLogoutButtonClickHandler}>로그아웃</div>
         </div>
     );
     
@@ -40,9 +64,18 @@ function SideNavigation() {
 
 }
 
-
 // component: 메인 레이아웃 컴포넌트 //
 export default function MainLayout() {
+    // state: 쿠키 상태 //
+    const [cookies] = useCookies();
+
+    // function: 네비게이터 함수 //
+    const navigatior = useNavigate();
+
+    // effect: 레이아웃 마운트시 로그인 여부 확인 //
+    useEffect(() => {
+        if(!cookies.accessToken) navigatior('/auth');
+    }, []);
 
     // render: 메인 레이아웃 컴포넌트 렌더링 //
     return (

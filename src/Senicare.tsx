@@ -16,7 +16,7 @@ function Index() {
 
   // effect: 마운트 시 경로 이동 effect //
   useEffect(() => {
-    if (cookies.accesToken) navigator('/cs');
+    if (cookies.accessToken) navigator('/cs');
     else navigator('/auth');
   }, []);
 
