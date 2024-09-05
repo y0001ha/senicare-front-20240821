@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './Senicare.css';
 import Auth from 'src/views/Auth';
 import { Route, Routes, useNavigate } from 'react-router';
-import MainLayout from './layouts/MainLayout/Index';
+import MainLayout from './layouts/MainLayout/index';
 import { useCookies } from 'react-cookie';
 
 // component: root path 컴포넌트 //
