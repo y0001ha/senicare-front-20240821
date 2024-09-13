@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { IdCheckRequestDto, telAuthRequestDto } from "./dto/request/auth";
+import { IdCheckRequestDto, TelAuthCheckRequestDto, telAuthRequestDto } from "./dto/request/auth";
 import { ResponseDto } from "./dto/response";
 
 // variable: API URL 상수 //
@@ -40,5 +40,12 @@ export const telAuthRequest = async (requestBody: telAuthRequestDto) => {
         .then(responseDataHnadler<ResponseDto>)
         .catch(responseErrorHandler)
         return responseBody;
+};
 
+// function: tel auth check 요청 함수 //
+export const telAuthCheckRequest = async (requestBody: TelAuthCheckRequestDto) =>{
+    const responseBody = await axios.post(TEL_AUTH_CHECK_API_URL, requestBody)
+    .then(responseDataHnadler<ResponseDto>)
+    .catch(responseErrorHandler);
+    return responseBody;
 };
