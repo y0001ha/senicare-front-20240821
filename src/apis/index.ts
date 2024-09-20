@@ -3,8 +3,8 @@ import { IdCheckRequestDto, SignInRequestDto, SignUpRequestDto, TelAuthCheckRequ
 import { ResponseDto } from "./dto/response";
 import { SignInResponseDto } from "./dto/response/auth";
 import { GetSignInResponseDto } from "./dto/response/nurse";
-import { Await } from "react-router";
 import { PostToolRequestDto } from "./dto/request/tool";
+import { GetToolListResponseDto } from "./dto/response/tool";
 
 // variable: API URL 상수 //
 const SENICARE_API_DOMAIN = 'http://localhost:4000';
@@ -24,6 +24,7 @@ const GET_SIGN_IN_API_URL = `${NURSE_MODUEL_URL}/sign-in`;
 const TOOL_MODUEL_URL = `${SENICARE_API_DOMAIN}/api/v1/tool`;
 
 const POST_TOOL_API_URL = `${TOOL_MODUEL_URL}`;
+const GET_TOOL_LIST_API_URL = `${TOOL_MODUEL_URL}`;
 
 // function: Authorization Bearer 헤더 //
 // `Bearer ${accessToken}` 문자열로 받을 때 대소문자 구분 주의 @@@@@@
@@ -97,3 +98,11 @@ export const PostToolRequest = async (requestBody: PostToolRequestDto, accessTok
         .catch(responseErrorHandler);
     return responseBody;
 } ;
+
+// function: get tool list 요청 함수 //
+export const getToolListRequest = async (accessToken: string) => {
+    const responseBody = await axios.get(GET_TOOL_LIST_API_URL, bearerAuthorization(accessToken))
+        .then(responseDataHnadler<GetToolListResponseDto>)
+        .catch(responseErrorHandler);
+    return responseBody
+};
