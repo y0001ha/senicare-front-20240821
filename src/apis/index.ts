@@ -4,6 +4,7 @@ import { ResponseDto } from "./dto/response";
 import { SignInResponseDto } from "./dto/response/auth";
 import { GetSignInResponseDto } from "./dto/response/nurse";
 import { Await } from "react-router";
+import { PostToolRequestDto } from "./dto/request/tool";
 
 // variable: API URL 상수 //
 const SENICARE_API_DOMAIN = 'http://localhost:4000';
@@ -19,6 +20,10 @@ const SIGN_IN_API_URL = `${AUTH_MODULE_URL}/sign-in`;
 const NURSE_MODUEL_URL = `${SENICARE_API_DOMAIN}/api/v1/nurse`;
 
 const GET_SIGN_IN_API_URL = `${NURSE_MODUEL_URL}/sign-in`;
+
+const TOOL_MODUEL_URL = `${SENICARE_API_DOMAIN}/api/v1/tool`;
+
+const POST_TOOL_API_URL = `${TOOL_MODUEL_URL}`;
 
 // function: Authorization Bearer 헤더 //
 // `Bearer ${accessToken}` 문자열로 받을 때 대소문자 구분 주의 @@@@@@
@@ -84,3 +89,11 @@ export const getSignInRequest = async (accessToken: string) => {
         .catch(responseErrorHandler);
     return responseBody;
 };
+
+// function: post tool 요청 함수 //
+export const PostToolRequest = async (requestBody: PostToolRequestDto, accessToken: string) => {
+    const responseBody = await axios.post(POST_TOOL_API_URL, requestBody, bearerAuthorization(accessToken))
+        .then(responseDataHnadler<ResponseDto>)
+        .catch(responseErrorHandler);
+    return responseBody;
+} ;
