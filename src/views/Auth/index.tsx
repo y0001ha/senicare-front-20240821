@@ -3,7 +3,7 @@ import './style.css';
 import InputBox from '../../components/Inputbox';
 import axios from 'axios';
 import { idCheckRequest, signInRequest, signUpRequest, telAuthCheckRequest, telAuthRequest } from 'src/apis';
-import { IdCheckRequestDto, SignInRequestDto, SignUpRequestDto, TelAuthCheckRequestDto, telAuthRequestDto } from 'src/apis/dto/request/auth';
+import { IdCheckRequestDto, SignInRequestDto, SignUpRequestDto, TelAuthCheckRequestDto, TelAuthRequestDto } from 'src/apis/dto/request/auth';
 import { ResponseDto } from 'src/apis/dto/response';
 import { SignInResponseDto } from 'src/apis/dto/response/auth';
 import { useCookies } from 'react-cookie';
@@ -242,7 +242,7 @@ function SignUp({ onPathChange }: AuthComponentProps) {
             return;
         }
 
-        const requestBody: telAuthRequestDto = { telNumber };
+        const requestBody: TelAuthRequestDto= { telNumber };
         telAuthRequest(requestBody).then(telAuthResponse);
 
         // setTelNumberMessage('인증번호가 전송되었습니다.')

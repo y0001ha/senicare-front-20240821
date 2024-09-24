@@ -3,5 +3,4 @@ export default interface Tool {
     name: string;
     purpose: string;
     count: number;
-
 }
