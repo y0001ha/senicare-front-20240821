@@ -33,6 +33,7 @@ const DELETE_TOOL_API_URL = (toolNumber: number | string) => `${TOOL_MODULE_URL}
 const CUSTOMER_MODUEL_URL = `${SENICARE_API_DOMAIN}/api/v1/customer`;
 
 const GET_CUSTOMER_LIST_API_URL = `${CUSTOMER_MODUEL_URL}`;
+const DELETE_CUSTOMER_API_URL = (customerNumber: number | string) => `${CUSTOMER_MODUEL_URL}/${customerNumber}`;
 
 // function: Authorizarion Bearer 헤더 //
 // `Bearer ${accessToken}` 문자열로 받을 때 대소문자 구분 주의 @@@@@@
@@ -143,6 +144,14 @@ export const deleteToolRequest = async (toolNumber: number | string, accessToken
 export const getCustomerListRequest = async (accessToken: string) => {
     const responseBody = await axios.get(GET_CUSTOMER_LIST_API_URL, bearerAuthorization(accessToken))
         .then(responseDataHandler<GetCustomerListResponseDto>)
+        .catch(responseErrorHandler);
+    return responseBody;
+};
+
+// function: delete customer 요청 함수 //
+export const deleteCustomerRequest = async (customerNumber: number | string, accessToken: string) => {
+    const responseBody = await axios.delete(DELETE_CUSTOMER_API_URL(customerNumber), bearerAuthorization(accessToken))
+        .then(responseDataHandler<ResponseDto>)
         .catch(responseErrorHandler);
     return responseBody;
 };
