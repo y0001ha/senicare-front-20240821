@@ -5,7 +5,8 @@ import { SignInResponseDto } from "./dto/response/auth";
 import { GetNurseListResponseDto, GetSignInResponseDto } from "./dto/response/nurse";
 import { PatchToolRequestDto, PostToolRequestDto } from "./dto/request/tool";
 import { GetToolListResponseDto, GetToolResponseDto } from "./dto/response/tool";
-import { GetCustomerListResponseDto } from "./dto/response/customer";
+import { GetCustomerListResponseDto, GetCustomerResponseDto } from "./dto/response/customer";
+import { PostCustomerRequestDto } from "./dto/request/customer";
 
 // variable: API URL 상수 //
 const SENICARE_API_DOMAIN = 'http://localhost:4000';
@@ -33,7 +34,9 @@ const DELETE_TOOL_API_URL = (toolNumber: number | string) => `${TOOL_MODULE_URL}
 
 const CUSTOMER_MODUEL_URL = `${SENICARE_API_DOMAIN}/api/v1/customer`;
 
+const POST_CUSTOMER_API_URL = `${CUSTOMER_MODUEL_URL}`;
 const GET_CUSTOMER_LIST_API_URL = `${CUSTOMER_MODUEL_URL}`;
+const GET_CUSTOMER_API_URL = (customerNumber: number | string) => `${CUSTOMER_MODUEL_URL}/${customerNumber}`;
 const DELETE_CUSTOMER_API_URL = (customerNumber: number | string) => `${CUSTOMER_MODUEL_URL}/${customerNumber}`;
 
 // function: Authorizarion Bearer 헤더 //
@@ -150,6 +153,14 @@ export const deleteToolRequest = async (toolNumber: number | string, accessToken
     return responseBody;
 };
 
+// function: post customer 요청 함수 //
+export const postCustomerRequest = async (requestBody: PostCustomerRequestDto, accessToken: string) => {
+    const responseBody = await axios.post(POST_CUSTOMER_API_URL, requestBody, bearerAuthorization(accessToken))
+        .then(responseDataHandler<ResponseDto>)
+        .catch(responseErrorHandler);
+    return responseBody;
+};
+
 // function: get customer list 요청 함수 //
 export const getCustomerListRequest = async (accessToken: string) => {
     const responseBody = await axios.get(GET_CUSTOMER_LIST_API_URL, bearerAuthorization(accessToken))
@@ -157,6 +168,14 @@ export const getCustomerListRequest = async (accessToken: string) => {
         .catch(responseErrorHandler);
     return responseBody;
 };
+
+// function: get customer 요청 함수 //
+export const getCustomerRequest  = async (customerNumber:number | string, accessToken: string) => {
+    const responseBody = await axios.get(GET_CUSTOMER_API_URL(customerNumber), bearerAuthorization(accessToken))
+        .then(responseDataHandler<GetCustomerResponseDto>)
+        .catch(responseErrorHandler);
+    return responseBody;
+    };
 
 // function: delete customer 요청 함수 //
 export const deleteCustomerRequest = async (customerNumber: number | string, accessToken: string) => {
@@ -171,7 +190,7 @@ const FILE_UPLOAD_URL = `${SENICARE_API_DOMAIN}/file/upload`;
 const mulitpart = { headers: { 'Content-Type': 'multipart/form-data' } };
 
 // function: file upload 요청 함수 //
-export const FileUploadRequest = async (requestBody: FormData) => {
+export const fileUploadRequest = async (requestBody: FormData) => {
     const url = await axios.post(FILE_UPLOAD_URL, requestBody, mulitpart) 
         .then(responseDataHandler<string>)
         .catch(error => null);
