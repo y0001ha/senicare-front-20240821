@@ -6,7 +6,8 @@ export default interface GetCustomerResponseDto extends ResponseDto {
     profileImage: string;
     name: string;
     birth: string;
-    charger: string;
+    chargerName: string;
     chargerId: string
     address: string;
+    location: string;
 }
