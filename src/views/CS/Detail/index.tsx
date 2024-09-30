@@ -44,10 +44,8 @@ export default function CSDetail() {
 
     // state: 선택한 용품 상태 //
     const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
-
     // state: 관리 기록 내용 상태 //
     const [recordContents, setRecordContents] = useState<string>('');
-
     // state: 사용 용품 개수 상태 //
     const [usedToolCount, setUsedToolCount] = useState<string>('');
 
@@ -111,6 +109,24 @@ export default function CSDetail() {
         setTotalList(careRecords);
     };
 
+    // function: get tool list response 처리 함수 //
+    const getToolListResponse = (responseBody: GetToolListResponseDto | ResponseDto | null) =>  {
+        const message =
+            !responseBody ? '서버에 문제가 있습니다.' : 
+            responseBody.code === 'AF' ? '잘못된 접근입니다.' :
+            responseBody.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
+
+        const isSuccessed = responseBody !== null && responseBody.code === 'SU';
+        if (!isSuccessed) {
+            alert(message);
+            return;
+        }
+
+        const { tools } = responseBody as GetToolListResponseDto;
+        const toolList = tools.filter(tool => tool.count > 0);
+        setToolList(toolList);
+    };
+
     // function: post care record response 처리 함수 //
     const postCareRecordResponse = (responseBody: ResponseDto | null) => {
         const message =
@@ -130,25 +146,8 @@ export default function CSDetail() {
         if (!customerNumber) return;
         const accessToken = cookies[ACCESS_TOKEN];
         if (!accessToken) return;
+        
         getCareRecordListRequest(customerNumber, accessToken).then(getCareRecordListResponse);
-    };
-
-    // function: get tool response 처리 함수 //
-    const getToolListResponse = (responseBody: GetToolListResponseDto | ResponseDto | null) =>  {
-        const message =
-            !responseBody ? '서버에 문제가 있습니다.' : 
-            responseBody.code === 'AF' ? '잘못된 접근입니다.' :
-            responseBody.code === 'DBE' ? '서버에 문제가 있습니다.' : '';
-
-        const isSuccessed = responseBody !== null && responseBody.code === 'SU';
-        if (!isSuccessed) {
-            alert(message);
-            return;
-        }
-
-        const { tools } = responseBody as GetToolListResponseDto;
-        const toolList = tools.filter(tool => tool.count > 0);
-        setToolList(toolList);
     };
 
     // function: delete customer response 처리 함수 //
